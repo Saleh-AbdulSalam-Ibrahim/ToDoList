@@ -1,8 +1,8 @@
- ToDoList
+ # ToDoList
 
-### a special list has tasks to do it
+## a special list has tasks to do it
 
-## Getting Started
+### Getting Started
 
 This project is a starting point for a Flutter application.
 
