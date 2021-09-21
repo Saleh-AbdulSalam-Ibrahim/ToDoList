@@ -38,7 +38,7 @@ class DbHelper {
   Future<List<Task>> allTasks() async {
     Database db = await createDatabase();
     List<Task> t = await db.rawQuery('select title from tasks') as List<Task>;
-    print('alltasks Function $t');
+    //print('alltasks Function $t');
     return t;
   }
 
