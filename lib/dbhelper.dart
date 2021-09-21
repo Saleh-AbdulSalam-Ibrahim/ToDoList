@@ -1,8 +1,9 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'models/TempTaskClass.dart';
 import 'models/task.dart';
+
+String pathLocated = '';
 
 class DbHelper {
   static final DbHelper _instance = DbHelper.internal();
@@ -18,30 +19,32 @@ class DbHelper {
       return _database;
     }
     String path = join(await getDatabasesPath(), 'todolist.db');
-
+    pathLocated = path;
     _database =
         await openDatabase(path, version: 1, onCreate: (Database db, int v) {
       db.execute(
-          'create table tasks(id integer primary key autoincrement, title varchar(255), isDone integer)');
+          'create table tasks(id integer primary key autoincrement, title varchar(255))');
     });
     return _database;
   }
 
-  Future<int> insertTask(TempTaskClass task) async {
+  Future<int> insertTask(Task task) async {
     Database db = await createDatabase();
     //insert bay Sql Statements db.rawInsert('             ')
     //db.insert('TableName', {'ColN' : ValCell } )
     return db.insert('tasks', task.toMap());
   }
 
-  Future<List> allTasks() async {
+  Future<List<Task>> allTasks() async {
     Database db = await createDatabase();
-    //db.rawQuery('sql statements');
-    return db.query('tasks');
+    List<Task> t = await db.rawQuery('select title from tasks') as List<Task>;
+    print('alltasks Function $t');
+    return t;
   }
 
-  Future<int> deleteTask(int id) async {
+  Future<int> deleteTask(String txt) async {
     Database db = await createDatabase();
-    return db.delete('tasks', where: 'id = ?', whereArgs: [id]);
+    print('$txt Deleted');
+    return db.delete('tasks', where: 'title = ?', whereArgs: [txt]);
   }
 }

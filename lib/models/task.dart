@@ -1,10 +1,17 @@
 class Task {
-  final String titleOfTask;
-  bool isDone;
-  int id;
-  Task({required this.titleOfTask, this.isDone = false, required this.id});
+  late final String title;
+  late bool isDone;
+  var id;
+  Task({required this.title, this.isDone = false});
   void toggleDone() {
     isDone = !isDone;
   }
 
+  Task.fromMap(Map<String, dynamic> data) {
+    id = data['id'];
+    title = data['title'];
+    isDone = false;
+  }
+
+  Map<String, dynamic> toMap() => {'id': id, 'title': title};
 }

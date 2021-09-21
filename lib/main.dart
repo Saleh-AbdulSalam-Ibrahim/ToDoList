@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:todolist/models/TempTaskClass.dart';
 import 'package:todolist/models/task_data.dart';
 import 'dbhelper.dart';
 import 'screens/task_screen.dart';
