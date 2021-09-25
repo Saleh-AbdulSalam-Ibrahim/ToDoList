@@ -20,10 +20,10 @@ class DbHelper {
     }
     String path = join(await getDatabasesPath(), 'todolist.db');
     pathLocated = path;
-    _database =
-        await openDatabase(path, version: 1, onCreate: (Database db, int v) {
-      db.execute(
-          'create table tasks(id integer primary key autoincrement, title varchar(255))');
+    _database = await openDatabase(path, version: 1,
+        onCreate: (Database db, int v) async {
+      await db.execute(
+          'CREATE TABLE Test (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT)');
     });
     return _database;
   }
@@ -37,7 +37,7 @@ class DbHelper {
 
   Future<List<Task>> allTasks() async {
     Database db = await createDatabase();
-    List<Task> t = await db.rawQuery('select title from tasks') as List<Task>;
+    List<Task> t = await db.query('tasks') as List<Task>;
     //print('alltasks Function $t');
     return t;
   }

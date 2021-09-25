@@ -6,16 +6,21 @@ class TaskTile extends StatelessWidget {
   final String taskTitle;
   final Function checkboxCallBack;
   final Function onLongPressCallback;
-  TaskTile(
-      {required this.taskTitle,
-      required this.isChecked,
-      required this.checkboxCallBack,
-      required this.onLongPressCallback});
+  final int id;
+
+  TaskTile({
+    required this.taskTitle,
+    required this.isChecked,
+    required this.checkboxCallBack,
+    required this.onLongPressCallback,
+    required this.id,
+  });
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        showToast('Hold press to remove the task');
+        showToast('Hold press to remove the task {ID : $id }');
       },
       onLongPress: () {
         onLongPressCallback();

@@ -1,47 +1,65 @@
-import 'package:flutter/foundation.dart';
-import 'package:todolist/main.dart';
-import 'package:todolist/models/task.dart';
 import 'dart:collection';
 
+import 'package:flutter/foundation.dart';
+import 'package:todolist/main.dart';
+
+import 'helpers.dart';
+
+int counter = 0;
+
 class TaskData extends ChangeNotifier {
-  List<Task> _tasks = [
-    // Task(titleOfTask: 'Complete Flutter Bootcamp Course'),
+  List<TaskToDo> _tasks = [
+    TaskToDo(title: 'Complete Flutter Bootcamp Course', id: counter),
     // Task(titleOfTask: 'Buy a RAM DDR4 2400Hz 8GB'),
     // Task(titleOfTask: 'Design some of screens to my app'),
   ];
+
   int get getCount {
     return _tasks.length;
   }
 
-  void insertIntoDatabase(Task task) {
-    //add function
-    dbHelper.insertTask(task);
+  int generateID() {
+    return counter += _tasks.length;
   }
 
-  UnmodifiableListView<Task> get tasks {
-    retrieveTasks();
+  // void insertIntoDatabase(TaskToDo task) {
+  //   //add function
+  //   //dbHelper.insertTask(task);
+  // }
+
+  UnmodifiableListView<TaskToDo> get tasks {
+    //retrieveTasks();
     return UnmodifiableListView(_tasks);
   }
 
-  void addTask(String newTaskTitle) {
-    _tasks.add(Task(title: newTaskTitle));
-    insertIntoDatabase(Task(title: newTaskTitle));
-    retrieveTasks();
+  void taskDataList() async {
+    _tasks.addAll(await todoProvider.getAllTasks() as List<TaskToDo>);
+  }
+
+  void addTask(String newTaskTitle) async {
+    TaskToDo taskToDo = TaskToDo(title: newTaskTitle, id: generateID());
+    _tasks.add(taskToDo);
+    await todoProvider.insert(taskToDo);
+    //insertIntoDatabase(Task(title: newTaskTitle));
+    // retrieveTasks();
+    taskDataList();
     notifyListeners();
   }
 
-  void deleteTask(Task task) {
+  void deleteTask(TaskToDo task) {
     _tasks.remove(task);
-    dbHelper.deleteTask((task.title));
+    todoProvider.delete(task.id);
+    //dbHelper.deleteTask((task.title));
     notifyListeners();
   }
 
-  void updateTaskState(Task task) {
+  void updateTaskState(TaskToDo task) async {
     task.toggleDone();
+    todoProvider.update(task);
     notifyListeners();
   }
 
-  void retrieveTasks() async {
-    _tasks = await dbHelper.allTasks();
-  }
+// void retrieveTasks() async {
+//   _tasks = await dbHelper.allTasks();
+// }
 }
