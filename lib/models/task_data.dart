@@ -36,10 +36,10 @@ class TaskData extends ChangeNotifier {
     _tasks.addAll(await todoProvider.getAllTasks() as List<TaskToDo>);
   }
 
-  void addTask(String newTaskTitle) async {
+  void addTask(String newTaskTitle) {
     TaskToDo taskToDo = TaskToDo(title: newTaskTitle, id: generateID());
     _tasks.add(taskToDo);
-    await todoProvider.insert(taskToDo);
+    todoProvider.insert(taskToDo);
     //insertIntoDatabase(Task(title: newTaskTitle));
     // retrieveTasks();
     taskDataList();
