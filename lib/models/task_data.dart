@@ -9,7 +9,7 @@ int counter = 0;
 
 class TaskData extends ChangeNotifier {
   List<TaskToDo> _tasks = [
-    TaskToDo(title: 'Complete Flutter Bootcamp Course', id: counter),
+    //TaskToDo(title: 'Complete Flutter Bootcamp Course', id: counter),
     // Task(titleOfTask: 'Buy a RAM DDR4 2400Hz 8GB'),
     // Task(titleOfTask: 'Design some of screens to my app'),
   ];
@@ -19,7 +19,7 @@ class TaskData extends ChangeNotifier {
   }
 
   int generateID() {
-    return counter += _tasks.length;
+    return counter = _tasks.length + 1;
   }
 
   // void insertIntoDatabase(TaskToDo task) {
@@ -29,20 +29,21 @@ class TaskData extends ChangeNotifier {
 
   UnmodifiableListView<TaskToDo> get tasks {
     //retrieveTasks();
+    taskDataList();
     return UnmodifiableListView(_tasks);
   }
 
-  void taskDataList() async {
+  taskDataList() async {
     _tasks.addAll(await todoProvider.getAllTasks() as List<TaskToDo>);
   }
 
   void addTask(String newTaskTitle) {
     TaskToDo taskToDo = TaskToDo(title: newTaskTitle, id: generateID());
     _tasks.add(taskToDo);
-    todoProvider.insert(taskToDo);
+    todoProvider.insert(_tasks.last);
     //insertIntoDatabase(Task(title: newTaskTitle));
     // retrieveTasks();
-    taskDataList();
+    //taskDataList();
     notifyListeners();
   }
 

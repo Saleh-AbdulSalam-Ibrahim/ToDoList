@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todolist/models/task_data.dart';
 
-import 'dbhelper.dart';
 import 'models/helpers.dart';
 import 'screens/task_screen.dart';
 
@@ -10,8 +9,8 @@ void main() {
   runApp(MyApp());
 }
 
-DbHelper dbHelper = DbHelper();
 TodoProvider todoProvider = TodoProvider();
+//DbHelper dbHelper = DbHelper();
 
 class MyApp extends StatelessWidget {
   @override
